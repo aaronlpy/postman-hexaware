@@ -1,0 +1,1008 @@
+{
+	"info": {
+		"_postman_id": "a1762e6c-c126-4615-9c6c-ffd89eea1b7f",
+		"name": "ReqRes",
+		"description": "This is the documentation for Reqres API.\n\nThis is part of the Introduction to API testing with Postman Course",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6721853"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"item": [
+				{
+					"name": "Register user success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Validate response contains an id\", function(){",
+									"    let response = pm.response.json()",
+									"    console.log(response.token)",
+									"    pm.expect(response.token).to.exist",
+									"    pm.environment.set(\"token\", response.token)",
+									"    pm.globals.set(\"globalVariable\", \"randomString\")",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Server\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let tokenExists = pm.variables.get(\"token\");",
+									"if (tokenExists != null){",
+									"    pm.environment.unset(\"token\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-id",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"pistol\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						},
+						"description": "Register a Valid User"
+					},
+					"response": [
+						{
+							"name": "Register user success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-id",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"pistol\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Mon, 30 Jan 2023 18:50:26 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "36"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"24-4iP0za1geN2he+ohu8F0FhCjLks\""
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"endpoints\":[{\"url\":\"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=Rk3tLx%2BAfHy9vv1IZDwXA%2BhRviqkiVlGcRHztU7a6zA7d%2FpRRTqJu4SC8NPaAfhKjgf4k1PIrpmng6BYcDn86%2FAq9qbJF6Xu1%2BKBvDoINkJxlEKh1oy6cIs8Gw%3D%3D\"}],\"group\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "NEL",
+									"value": "{\"success_fraction\":0,\"report_to\":\"cf-nel\",\"max_age\":604800}"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "791c64aa2cfa2825-DFW"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"token\": \"QpwL5tke4Pnpja7X4\"\n}"
+						}
+					]
+				},
+				{
+					"name": "register user without pwd_negative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"/* Functional Testing */",
+									"pm.test(\"Response contains error => missing password\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql(\"Missing password\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sydney@fife\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "register user without pwd_negative",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"sydney@fife\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "register user without email_negative",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 400ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"/* Functional Testing */",
+									"pm.test(\"Response contains error => Missing email or username\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql(\"Missing email or username\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"sydney@fife\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/register",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "register user without email_negative",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"password\": \"sydney@fife\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/api/register",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "Login Success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Validate and transfer token to environment\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.token).to.exist",
+									"    pm.environment.set(\"token\", jsonData.token)",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"cityslicka\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login with empty password",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response contains an error with => Missing password\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql(\"Missing password\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login with password is null",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Validate response contains an error with => Missing password\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.error).to.eql(\"Missing password\")",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/login",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get list of users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function getRandomInt(max) {",
+									"  return Math.floor(Math.random() * max);",
+									"}",
+									"",
+									"let total = pm.response.json().total",
+									"console.log(total)",
+									"let randomNumber = getRandomInt(total)",
+									"pm.environment.set(\"userId\", randomNumber)",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users?per_page=12",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "12"
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const schema = {",
+									"    \"$id\": \"http://example.com/example.json\",",
+									"    \"type\": \"object\",",
+									"    \"default\": {},",
+									"    \"title\": \"Root Schema\",",
+									"    \"required\": [",
+									"        \"data\",",
+									"        \"support\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"data\": {",
+									"            \"type\": \"object\",",
+									"            \"default\": {},",
+									"            \"title\": \"The data Schema\",",
+									"            \"required\": [",
+									"                \"id\",",
+									"                \"email\",",
+									"                \"first_name\",",
+									"                \"last_name\",",
+									"                \"avatar\"",
+									"            ],",
+									"            \"properties\": {",
+									"                \"id\": {",
+									"                    \"type\": \"integer\",",
+									"                    \"default\": 0,",
+									"                    \"title\": \"The id Schema\",",
+									"                    \"examples\": [",
+									"                        5",
+									"                    ]",
+									"                },",
+									"                \"email\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The email Schema\",",
+									"                    \"examples\": [",
+									"                        \"charles.morris@reqres.in\"",
+									"                    ]",
+									"                },",
+									"                \"first_name\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The first_name Schema\",",
+									"                    \"examples\": [",
+									"                        \"Charles\"",
+									"                    ]",
+									"                },",
+									"                \"last_name\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The last_name Schema\",",
+									"                    \"examples\": [",
+									"                        \"Morris\"",
+									"                    ]",
+									"                },",
+									"                \"avatar\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The avatar Schema\",",
+									"                    \"examples\": [",
+									"                        \"https://reqres.in/img/faces/5-image.jpg\"",
+									"                    ]",
+									"                }",
+									"            },",
+									"            \"examples\": [{",
+									"                \"id\": 5,",
+									"                \"email\": \"charles.morris@reqres.in\",",
+									"                \"first_name\": \"Charles\",",
+									"                \"last_name\": \"Morris\",",
+									"                \"avatar\": \"https://reqres.in/img/faces/5-image.jpg\"",
+									"            }]",
+									"        },",
+									"        \"support\": {",
+									"            \"type\": \"object\",",
+									"            \"default\": {},",
+									"            \"title\": \"The support Schema\",",
+									"            \"required\": [",
+									"                \"url\",",
+									"                \"text\"",
+									"            ],",
+									"            \"properties\": {",
+									"                \"url\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The url Schema\",",
+									"                    \"examples\": [",
+									"                        \"https://reqres.in/#support-heading\"",
+									"                    ]",
+									"                },",
+									"                \"text\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The text Schema\",",
+									"                    \"examples\": [",
+									"                        \"To keep ReqRes free, contributions towards server costs are appreciated!\"",
+									"                    ]",
+									"                }",
+									"            },",
+									"            \"examples\": [{",
+									"                \"url\": \"https://reqres.in/#support-heading\",",
+									"                \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"",
+									"            }]",
+									"        }",
+									"    },",
+									"    \"examples\": [{",
+									"        \"data\": {",
+									"            \"id\": 5,",
+									"            \"email\": \"charles.morris@reqres.in\",",
+									"            \"first_name\": \"Charles\",",
+									"            \"last_name\": \"Morris\",",
+									"            \"avatar\": \"https://reqres.in/img/faces/5-image.jpg\"",
+									"        },",
+									"        \"support\": {",
+									"            \"url\": \"https://reqres.in/#support-heading\",",
+									"            \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"",
+									"        }",
+									"    }]",
+									"}",
+									"",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Validate JSON Schema against response\", function(){",
+									"    pm.response.to.have.jsonSchema(schema)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users/{{userId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Single User Not Found",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const schema = {",
+									"    \"$id\": \"http://example.com/example.json\",",
+									"    \"type\": \"object\",",
+									"    \"default\": {},",
+									"    \"title\": \"Root Schema\",",
+									"    \"required\": [",
+									"        \"data\",",
+									"        \"support\"",
+									"    ],",
+									"    \"properties\": {",
+									"        \"data\": {",
+									"            \"type\": \"object\",",
+									"            \"default\": {},",
+									"            \"title\": \"The data Schema\",",
+									"            \"required\": [",
+									"                \"id\",",
+									"                \"email\",",
+									"                \"first_name\",",
+									"                \"last_name\",",
+									"                \"avatar\"",
+									"            ],",
+									"            \"properties\": {",
+									"                \"id\": {",
+									"                    \"type\": \"integer\",",
+									"                    \"default\": 0,",
+									"                    \"title\": \"The id Schema\",",
+									"                    \"examples\": [",
+									"                        5",
+									"                    ]",
+									"                },",
+									"                \"email\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The email Schema\",",
+									"                    \"examples\": [",
+									"                        \"charles.morris@reqres.in\"",
+									"                    ]",
+									"                },",
+									"                \"first_name\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The first_name Schema\",",
+									"                    \"examples\": [",
+									"                        \"Charles\"",
+									"                    ]",
+									"                },",
+									"                \"last_name\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The last_name Schema\",",
+									"                    \"examples\": [",
+									"                        \"Morris\"",
+									"                    ]",
+									"                },",
+									"                \"avatar\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The avatar Schema\",",
+									"                    \"examples\": [",
+									"                        \"https://reqres.in/img/faces/5-image.jpg\"",
+									"                    ]",
+									"                }",
+									"            },",
+									"            \"examples\": [{",
+									"                \"id\": 5,",
+									"                \"email\": \"charles.morris@reqres.in\",",
+									"                \"first_name\": \"Charles\",",
+									"                \"last_name\": \"Morris\",",
+									"                \"avatar\": \"https://reqres.in/img/faces/5-image.jpg\"",
+									"            }]",
+									"        },",
+									"        \"support\": {",
+									"            \"type\": \"object\",",
+									"            \"default\": {},",
+									"            \"title\": \"The support Schema\",",
+									"            \"required\": [",
+									"                \"url\",",
+									"                \"text\"",
+									"            ],",
+									"            \"properties\": {",
+									"                \"url\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The url Schema\",",
+									"                    \"examples\": [",
+									"                        \"https://reqres.in/#support-heading\"",
+									"                    ]",
+									"                },",
+									"                \"text\": {",
+									"                    \"type\": \"string\",",
+									"                    \"default\": \"\",",
+									"                    \"title\": \"The text Schema\",",
+									"                    \"examples\": [",
+									"                        \"To keep ReqRes free, contributions towards server costs are appreciated!\"",
+									"                    ]",
+									"                }",
+									"            },",
+									"            \"examples\": [{",
+									"                \"url\": \"https://reqres.in/#support-heading\",",
+									"                \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"",
+									"            }]",
+									"        }",
+									"    },",
+									"    \"examples\": [{",
+									"        \"data\": {",
+									"            \"id\": 5,",
+									"            \"email\": \"charles.morris@reqres.in\",",
+									"            \"first_name\": \"Charles\",",
+									"            \"last_name\": \"Morris\",",
+									"            \"avatar\": \"https://reqres.in/img/faces/5-image.jpg\"",
+									"        },",
+									"        \"support\": {",
+									"            \"url\": \"https://reqres.in/#support-heading\",",
+									"            \"text\": \"To keep ReqRes free, contributions towards server costs are appreciated!\"",
+									"        }",
+									"    }]",
+									"}",
+									"",
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users/13",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"Transfer userId to environment\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"userId\", jsonData.id)",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"morpheus\",\n    \"job\": \"leader\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/users",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 500ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"pm.test(\"Validate username is updated\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    var request = JSON.parse(pm.request.body.raw)",
+									"    console.log(\"expected username: \" + request.name)",
+									"    pm.expect(jsonData.name).to.eql(request.name);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"morpheus1\",\n    \"job\": \"zion resident\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/api/users/{{userId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/users/{{userId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
